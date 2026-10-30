@@ -1,0 +1,127 @@
+name: Build MPVKit release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to create, e.g. 0.41.0-n8.1.2-nuvio.6"
+        required: true
+        type: string
+      platforms:
+        description: "Platforms to build (comma separated)"
+        required: true
+        default: "ios,isimulator"
+        type: string
+      gpl:
+        description: "Build the GPL variant"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 360
+    env:
+      TAG: ${{ inputs.tag }}
+      PLATFORMS: ${{ inputs.platforms }}
+      GPL: ${{ inputs.gpl }}
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Check the tag is free
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "::error::Release $TAG already exists. Pick a new tag."
+            exit 1
+          fi
+
+      - name: Show toolchain
+        run: |
+          xcodebuild -version
+          sw_vers
+          df -h /
+
+      - name: Install build tools
+        run: |
+          # Most are preinstalled on the runner; brew skips those that are.
+          brew install pkg-config wget meson ninja cmake nasm autoconf automake libtool
+
+      - name: Build
+        run: |
+          args="platform=$PLATFORMS"
+          if [ "$GPL" = "true" ]; then
+            make gpl $args
+          else
+            make build $args
+          fi
+
+      - name: Collect artifacts
+        id: collect
+        run: |
+          shopt -s nullglob
+          zips=(dist/release/*.xcframework.zip)
+          if [ ${#zips[@]} -eq 0 ]; then
+            echo "::error::No xcframework zips were produced in dist/release."
+            exit 1
+          fi
+          base="https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG"
+          {
+            echo "Built from \`$GITHUB_SHA\` (branch \`$GITHUB_REF_NAME\`)."
+            echo
+            echo "Platforms: \`$PLATFORMS\` · GPL: \`$GPL\`"
+            echo
+            echo "| Framework | Checksum |"
+            echo "|---|---|"
+            for zip in "${zips[@]}"; do
+              name=$(basename "$zip" .xcframework.zip)
+              sum=$(cat "dist/release/$name.xcframework.checksum.txt" 2>/dev/null || swift package compute-checksum "$zip")
+              echo "| \`$name\` | \`$sum\` |"
+            done
+            echo
+            echo "### Package.swift"
+            echo
+            echo '```swift'
+            for zip in "${zips[@]}"; do
+              name=$(basename "$zip" .xcframework.zip)
+              sum=$(cat "dist/release/$name.xcframework.checksum.txt" 2>/dev/null || swift package compute-checksum "$zip")
+              echo ".binaryTarget("
+              echo "    name: \"$name\","
+              echo "    url: \"$base/$name.xcframework.zip\","
+              echo "    checksum: \"$sum\""
+              echo "),"
+            done
+            echo '```'
+          } > release-notes.md
+          cat release-notes.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$TAG" dist/release/*.xcframework.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "$TAG" \
+            --notes-file release-notes.md
+
+      - name: Upload build logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            **/*.log
+            dist/**/*.log
+          if-no-files-found: ignore
+          retention-days: 7
