@@ -253,38 +253,38 @@ let package = Package(
 
         .binaryTarget(
             name: "Libavcodec",
-            url: "https://github.com/mpvkit/MPVKit/releases/download/0.41.0-n8.1.2/Libavcodec.xcframework.zip",
-            checksum: "bf0aa69d62981ac8859ef08849312474cf5201bf51242ecece86007b2cc07444"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libavcodec.xcframework.zip",
+            checksum: "263ffe2f54e5a16b76f19a70f7bdf953d0148e69e9df5497f4daba4251c30274"
         ),
         .binaryTarget(
             name: "Libavdevice",
-            url: "https://github.com/mpvkit/MPVKit/releases/download/0.41.0-n8.1.2/Libavdevice.xcframework.zip",
-            checksum: "3aec22d82735405a32b87488a13c1889277af10522bb5c8dc543278b2f2bb1ac"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libavdevice.xcframework.zip",
+            checksum: "278e75eba307a35822627bbb482132d1358f38fc96868e051dfa3ebde1d0f28a"
         ),
         .binaryTarget(
             name: "Libavformat",
-            url: "https://github.com/mpvkit/MPVKit/releases/download/0.41.0-n8.1.2/Libavformat.xcframework.zip",
-            checksum: "962c010aa2c4b369cf8f6efa2b0bd26e0a2392d58a1487e6a2be8c3d73044d45"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libavformat.xcframework.zip",
+            checksum: "e5e21805fbae3fb44fa506e21502e04b7daee347c6d4f8502dc3eeab73c2a696"
         ),
         .binaryTarget(
             name: "Libavfilter",
-            url: "https://github.com/mpvkit/MPVKit/releases/download/0.41.0-n8.1.2/Libavfilter.xcframework.zip",
-            checksum: "1ea0aebfc460f347d631fad982dd1db3a929896d02722cd18903faeb4c5f4103"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libavfilter.xcframework.zip",
+            checksum: "37df56c5041107e731adee3bd2d14a6ad58a75a17b0b14c64228d9bc2fb3a496"
         ),
         .binaryTarget(
             name: "Libavutil",
-            url: "https://github.com/mpvkit/MPVKit/releases/download/0.41.0-n8.1.2/Libavutil.xcframework.zip",
-            checksum: "62d7d932c0a9d2bd45a23d7845db12a293b4f810e5cfae2b5e4ad05e8b737a1b"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libavutil.xcframework.zip",
+            checksum: "b95494c48ac603edc62216d3d2da09fe6c2d6ddcbd50c652ea572a65065243ae"
         ),
         .binaryTarget(
             name: "Libswresample",
-            url: "https://github.com/mpvkit/MPVKit/releases/download/0.41.0-n8.1.2/Libswresample.xcframework.zip",
-            checksum: "80fbd7a266d0633a916d21a01fcfab347b4ffb8d16c7a02e43671ef71e6999f0"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libswresample.xcframework.zip",
+            checksum: "502837fabd46ddb84871e980d8bffe18222dcc84cb2e79eb344c141826c7684d"
         ),
         .binaryTarget(
             name: "Libswscale",
-            url: "https://github.com/mpvkit/MPVKit/releases/download/0.41.0-n8.1.2/Libswscale.xcframework.zip",
-            checksum: "fd968cad30f5295082b86a8ab7ada5dd9ea18e9049ec194a748e91bd0027afb5"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libswscale.xcframework.zip",
+            checksum: "257a7aaf79849ade9fa36a4d44586e1dcbf9b3af6ed94091a5075375734f7602"
         ),
 
         .binaryTarget(
@@ -301,8 +301,8 @@ let package = Package(
 
         .binaryTarget(
             name: "Libmpv",
-            url: "https://github.com/NuvioMedia/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.5/Libmpv.xcframework.zip",
-            checksum: "13094840e2f17addbf2f1885673bbe942725c6458ab78ec64704d8edafca7220"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libmpv.xcframework.zip",
+            checksum: "166fc1d3a98ddfa436635e3a05c398f5d2edd3540dd8f88a6a8515af2b970c74"
         ),
         //AUTO_GENERATE_TARGETS_END//
     ]
