@@ -253,38 +253,38 @@ let package = Package(
 
         .binaryTarget(
             name: "Libavcodec",
-            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libavcodec.xcframework.zip",
-            checksum: "263ffe2f54e5a16b76f19a70f7bdf953d0148e69e9df5497f4daba4251c30274"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.7/Libavcodec.xcframework.zip",
+            checksum: "fbf0b9136398106a50cd4301f35005135695fdf715ca1e46406309cfd62c8f5d"
         ),
         .binaryTarget(
             name: "Libavdevice",
-            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libavdevice.xcframework.zip",
-            checksum: "278e75eba307a35822627bbb482132d1358f38fc96868e051dfa3ebde1d0f28a"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.7/Libavdevice.xcframework.zip",
+            checksum: "5f4f66854a19cba75474495241f19beb1df17dbc5851e098c03e47f4fd1fff2d"
         ),
         .binaryTarget(
             name: "Libavformat",
-            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libavformat.xcframework.zip",
-            checksum: "e5e21805fbae3fb44fa506e21502e04b7daee347c6d4f8502dc3eeab73c2a696"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.7/Libavformat.xcframework.zip",
+            checksum: "1eaa1112f14285ab8df3f671dcbe02a7ff755da33e7fb226535252f623b307cf"
         ),
         .binaryTarget(
             name: "Libavfilter",
-            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libavfilter.xcframework.zip",
-            checksum: "37df56c5041107e731adee3bd2d14a6ad58a75a17b0b14c64228d9bc2fb3a496"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.7/Libavfilter.xcframework.zip",
+            checksum: "797b94fd2bc00505d7b3a995836591859151acc3845be9526fa7a063fc7609ad"
         ),
         .binaryTarget(
             name: "Libavutil",
-            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libavutil.xcframework.zip",
-            checksum: "b95494c48ac603edc62216d3d2da09fe6c2d6ddcbd50c652ea572a65065243ae"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.7/Libavutil.xcframework.zip",
+            checksum: "594c49ecde7d35a5dbdae7703632e196ec205a1bf9e38cfe911296ab9ce17256"
         ),
         .binaryTarget(
             name: "Libswresample",
-            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libswresample.xcframework.zip",
-            checksum: "502837fabd46ddb84871e980d8bffe18222dcc84cb2e79eb344c141826c7684d"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.7/Libswresample.xcframework.zip",
+            checksum: "915d07fb19afb5d696c1d97d60ab26183503ac14afeeeba14ae793d397cae4b9"
         ),
         .binaryTarget(
             name: "Libswscale",
-            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libswscale.xcframework.zip",
-            checksum: "257a7aaf79849ade9fa36a4d44586e1dcbf9b3af6ed94091a5075375734f7602"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.7/Libswscale.xcframework.zip",
+            checksum: "69c9378d172276328d626126581d1c4286a748a16030aa3791b5a38aa2e12c62"
         ),
 
         .binaryTarget(
@@ -301,8 +301,8 @@ let package = Package(
 
         .binaryTarget(
             name: "Libmpv",
-            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.6/Libmpv.xcframework.zip",
-            checksum: "166fc1d3a98ddfa436635e3a05c398f5d2edd3540dd8f88a6a8515af2b970c74"
+            url: "https://github.com/luqmanfadlli/MPVKit/releases/download/0.41.0-n8.1.2-nuvio.7/Libmpv.xcframework.zip",
+            checksum: "8b8fec8e9b66f409a5f60d102cf560fa8c3148ff61433ac68beeefd50a443359"
         ),
         //AUTO_GENERATE_TARGETS_END//
     ]
