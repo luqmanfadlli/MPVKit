@@ -16,18 +16,60 @@ new file mode 100644
 index 0000000..97ce5ac
 --- /dev/null
 +++ b/video/out/nuvio_pip.m
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,85 @@
 +// Local PiP prototype. The host retains the Metal layer for the lifetime of the VO.
 +#import <Foundation/Foundation.h>
 +#import <CoreVideo/CoreVideo.h>
 +#import <TargetConditionals.h>
 +#include "video/mp_image.h"
 +#include "video/img_format.h"
++#include <libavutil/buffer.h>
++#include <libplacebo/colorspace.h>
 +
 +@protocol NuvioPiPFrameSink <NSObject>
 +@property (readonly) BOOL nuvioPiPConsumesVideo;
 +- (void)nuvioEnqueuePiPFrame:(CVPixelBufferRef)buffer presentationTime:(double)pts isPictureInPictureFrame:(BOOL)active;
++@optional
++- (void)nuvioEnqueuePiPFrame:(CVPixelBufferRef)buffer presentationTime:(double)pts isPictureInPictureFrame:(BOOL)active doviMetadata:(NSData *)dovi;
 +@end
++
++static NSData *nuvio_pip_dovi_metadata(struct mp_image *image)
++{
++    if (!image->dovi || !image->dovi->data || image->dovi->size < sizeof(struct pl_dovi_metadata))
++        return nil;
++    const struct pl_dovi_metadata *dovi = (const struct pl_dovi_metadata *)image->dovi->data;
++    NSMutableData *data = [NSMutableData dataWithLength:(21 + 3 * 226) * sizeof(float)];
++    float *out = data.mutableBytes;
++    for (int i = 0; i < 3; i++)
++        out[i] = dovi->nonlinear_offset[i];
++    for (int r = 0; r < 3; r++) {
++        for (int c = 0; c < 3; c++) {
++            out[3 + r * 3 + c] = dovi->nonlinear.m[r][c];
++            out[12 + r * 3 + c] = dovi->linear.m[r][c];
++        }
++    }
++    for (int c = 0; c < 3; c++) {
++        const struct pl_reshape_data *comp = &dovi->comp[c];
++        float *d = out + 21 + c * 226;
++        int pivots = comp->num_pivots > 9 ? 9 : comp->num_pivots;
++        d[0] = pivots;
++        for (int i = 0; i < pivots; i++)
++            d[1 + i] = comp->pivots[i];
++        for (int i = 0; i < pivots - 1; i++) {
++            d[10 + i] = comp->method[i];
++            for (int k = 0; k < 3; k++)
++                d[18 + i * 3 + k] = comp->poly_coeffs[i][k];
++            int order = comp->mmr_order[i] > 3 ? 3 : comp->mmr_order[i];
++            d[42 + i] = order;
++            d[50 + i] = comp->mmr_constant[i];
++            for (int j = 0; j < order; j++) {
++                for (int k = 0; k < 7; k++)
++                    d[58 + i * 21 + j * 7 + k] = comp->mmr_coeffs[i][j][k];
++            }
++        }
++    }
++    return data;
++}
 +
 +bool nuvio_pip_active(int64_t layer)
 +{
@@ -46,7 +88,13 @@ index 0000000..97ce5ac
 +    if (!image || image->imgfmt != IMGFMT_VIDEOTOOLBOX || !image->planes[3])
 +        return active;
 +    id object = (__bridge id)(void *)(intptr_t)layer;
-+    if ([object respondsToSelector:@selector(nuvioEnqueuePiPFrame:presentationTime:isPictureInPictureFrame:)]) {
++    if ([object respondsToSelector:@selector(nuvioEnqueuePiPFrame:presentationTime:isPictureInPictureFrame:doviMetadata:)]) {
++        @autoreleasepool {
++            [(id<NuvioPiPFrameSink>)object nuvioEnqueuePiPFrame:
++                (CVPixelBufferRef)image->planes[3] presentationTime:image->pts isPictureInPictureFrame:active
++                doviMetadata:nuvio_pip_dovi_metadata(image)];
++        }
++    } else if ([object respondsToSelector:@selector(nuvioEnqueuePiPFrame:presentationTime:isPictureInPictureFrame:)]) {
 +        @autoreleasepool {
 +            [(id<NuvioPiPFrameSink>)object nuvioEnqueuePiPFrame:
 +                (CVPixelBufferRef)image->planes[3] presentationTime:image->pts isPictureInPictureFrame:active];
